@@ -20,6 +20,7 @@
     "react-redux": "^8.0.5",
     "react-router-dom": "^6.8.2",
     "react-scripts": "5.0.1",
+    "react-toastify": "^10.0.4",
     "rebass": "^4.0.7",
     "redux-saga": "^1.2.2",
     "web-vitals": "^2.1.4"
@@ -50,7 +51,6 @@
   },
   "description": "This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).",
   "main": "index.js",
-  "devDependencies": {},
   "author": "",
   "license": "ISC"
 }

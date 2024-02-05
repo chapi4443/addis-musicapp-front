@@ -1,27 +1,38 @@
 import axios from "axios";
+import { toast } from "react-toastify";
 
 export const fetchInputData = async (Data) => {
-  const createMusic = fetch(
-    "https://musicaddis.onrender.com/api/v1/music/songs",
-    {
-      method: "POST",
-      crossDomain: true,
-      headers: {
-        "Content-Type": "application/json",
-        Accept: "application/json",
-        "Access-Control-Allow-Origin": "*",
-      },
-      body: JSON.stringify({
-        gener: Data.genre,
-        title: Data.title,
-        artist: Data.artist,
-        album: Data.album,
-      }),
-    }
-  );
+  try {
+    const createMusic = await fetch(
+      "https://musicaddis.onrender.com/api/v1/music/songs",
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+          "Access-Control-Allow-Origin": "*",
+        },
+        body: JSON.stringify({
+          gener: Data.genre,
+          title: Data.title,
+          artist: Data.artist,
+          album: Data.album,
+        }),
+      }
+    );
 
-  if (createMusic) {
-    window.location.href = "/";
+    if (createMusic.ok) {
+      toast.success("Song CREATED successfully!");
+      setTimeout(() => {
+        window.location.href = "/";
+      }, 1000);
+    } else {
+      const errorResponse = await createMusic.json();
+      toast.error(errorResponse.error);
+    }
+  } catch (error) {
+    console.error(error);
+    toast.error(error);
   }
 };
 
@@ -40,32 +51,43 @@ export const fetchGetStatics = async () => {
 };
 
 export const fetchUpdate = async (Data) => {
-  const id = Data.id
-  const updateData = fetch(
-    `https://musicaddis.onrender.com/api/v1/music/songs/${id}`,
-    {
-      method: "put",
-      crossDomain: true,
-      headers: {
-        "Content-Type": "application/json",
-        Accept: "application/json",
-        "Access-Control-Allow-Origin": "*",
-      },
-      body: JSON.stringify({
-        gener: Data.genre,
-        title: Data.title,
-        artist: Data.artist,
-        album: Data.album,
-      }),
+  try {
+    const id = Data.id;
+    const updateData = await fetch(
+      `https://musicaddis.onrender.com/api/v1/music/songs/${id}`,
+      {
+        method: "put",
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+          "Access-Control-Allow-Origin": "*",
+        },
+        body: JSON.stringify({
+          gener: Data.genre,
+          title: Data.title,
+          artist: Data.artist,
+          album: Data.album,
+        }),
+      }
+    );
+
+    if (updateData.status === 200 || updateData.status === 204) {
+      toast.success("Song UPDATED successfully!");
+      setTimeout(() => {
+        window.location.href = "/";
+      }, 1000);
+    } else {
+      const errorResponse = await updateData.json();
+      toast.error(errorResponse.error);
     }
-  );
-  if (updateData) {
-    window.location.href = "/";
+  } catch (error) {
+    console.error(error);
+    toast.error("An unexpected error occurred.");
   }
 };
 
 export const fetchDelete = async (data) => {
-  const id = data.id
+  const id = data.id;
   const deleteData = fetch(
     `https://musicaddis.onrender.com/api/v1/music/songs/${id}`,
     {
@@ -80,6 +102,9 @@ export const fetchDelete = async (data) => {
     }
   );
   if (deleteData) {
-    window.location.reload();
+    toast.success("Song DELETED successfully!");
+    setTimeout(() => {
+      window.location.reload();
+    }, 1000);
   }
 };

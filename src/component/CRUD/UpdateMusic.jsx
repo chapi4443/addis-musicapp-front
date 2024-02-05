@@ -4,7 +4,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import { Box, Button, Flex } from "rebass";
 import { MusicGet, MusicUpdate } from "../../Store/songs";
-
+import "react-toastify/dist/ReactToastify.css";
+import { ToastContainer } from "react-toastify";
 
 const UpdateMusic = () => {
   const { id } = useParams();
@@ -52,6 +53,7 @@ const UpdateMusic = () => {
       justifyContent={"center"}
       color={"black"}
     >
+      <ToastContainer />
       {FilterData.map((item, index) => (
         <Box
           as={"form"}

@@ -17,23 +17,43 @@ export function* watchFetchMusic() {
 }
 
 function* InputData(action) {
-  yield call(fetchInputData, action.payload.data);
-  yield MusicGet();
+  try {
+    yield call(fetchInputData, action.payload.data);
+    yield MusicGet();
+  } catch (error) {
+    console.log(error);
+  }
 }
 function* fetchSongs() {
-  const songs = yield call(fetchGet);
-  yield put(MusicPut(songs));
+  try {
+    const songs = yield call(fetchGet);
+    yield put(MusicPut(songs));
+  } catch (error) {
+    console.log(error);
+  }
 }
 
 function* fetchStatics() {
-  const album = yield call(fetchGetStatics);
-  yield put(StaticsPut(album));
+  try {
+    const album = yield call(fetchGetStatics);
+    yield put(StaticsPut(album));
+  } catch (error) {
+    console.log(error);
+  }
 }
 function* updateSongs(action) {
-  yield call(fetchUpdate, action.payload.data);
-  yield MusicGet();
+  try {
+    yield call(fetchUpdate, action.payload.data);
+    yield MusicGet();
+  } catch (error) {
+    console.log(error);
+  }
 }
 function* deleteSongs(action) {
-  yield call(fetchDelete, action.payload);
-  yield MusicGet();
+  try {
+    yield call(fetchDelete, action.payload);
+    yield MusicGet();
+  } catch (error) {
+    console.log(error);
+  }
 }

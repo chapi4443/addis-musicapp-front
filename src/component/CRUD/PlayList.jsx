@@ -8,14 +8,24 @@ import { MusicDelete, StaticsGet } from "../../Store/songs";
 import { NavLink } from "react-router-dom";
 import { useEffect } from "react";
 import { Select } from "@rebass/forms";
-
+import "react-toastify/dist/ReactToastify.css";
+import { ToastContainer } from "react-toastify";
 const PlayList = (props) => {
   const getStastic = useSelector((state) => state.musicUp.StaticsData);
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(StaticsGet());
   }, [dispatch]);
-  console.log(getStastic);
+  const [pending, setPending] = React.useState(true);
+  const [rows, setRows] = React.useState([]);
+
+  useEffect(() => {
+    const timeout = setTimeout(() => {
+      setRows(props?.DUMMY_MUSIC);
+      setPending(false);
+    }, 2000);
+    return () => clearTimeout(timeout);
+  }, [props?.DUMMY_MUSIC]);
   const columns = [
     {
       name: "Title",
@@ -86,6 +96,7 @@ const PlayList = (props) => {
       py={4}
       px={2}
     >
+      <ToastContainer />
       <Box
         as={"div"}
         p={2}
@@ -158,10 +169,10 @@ const PlayList = (props) => {
           </option>
         </Select>
       </Box>
-      {props.DUMMY_MUSIC && (
+      {rows && (
         <DataTable
           columns={columns}
-          data={props.DUMMY_MUSIC}
+          data={rows}
           fixedHeader
           highlightOnHover
           pointerOnHover
@@ -169,6 +180,7 @@ const PlayList = (props) => {
           minHeight="73.8vh"
           customStyles={customstayle}
           pagination
+          progressPending={pending}
         ></DataTable>
       )}
       <table style={{ width: "50%", color: "#272727", border: "1px solid" }}>

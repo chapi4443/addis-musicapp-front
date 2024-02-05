@@ -3,7 +3,8 @@ import React, { useRef } from "react";
 import { useDispatch } from "react-redux";
 import { Box, Button, Flex } from "rebass";
 import { MusicInput } from "../../Store/songs";
-
+import "react-toastify/dist/ReactToastify.css";
+import { ToastContainer } from "react-toastify";
 const CreateMusic = () => {
   const dispatch = useDispatch();
 
@@ -41,6 +42,7 @@ const CreateMusic = () => {
       justifyContent={"center"}
       color={"black"}
     >
+      <ToastContainer />
       <Box
         as={"form"}
         py={2}
